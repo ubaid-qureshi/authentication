@@ -5,6 +5,7 @@ const router = express.Router();
 const { version } = require('../../../package.json');
 
 router.get('/ping', (req, res) => {
+  _logger.info('PINGED');
   _handleResponse({
     res,
     statusCode: 200,
@@ -13,6 +14,7 @@ router.get('/ping', (req, res) => {
 });
 
 router.get('/version', (req, res) => {
+  _logger.info(`version - ${version}`);
   _handleResponse({
     res,
     statusCode: 200,
