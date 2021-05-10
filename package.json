@@ -27,6 +27,8 @@
     "mongoose": "^5.12.3",
     "morgan": "^1.10.0",
     "node-cron": "^3.0.0",
+    "qrcode": "^1.4.4",
+    "speakeasy": "^2.0.0",
     "twilio": "^3.60.0",
     "uuid": "^8.3.2",
     "winston": "^3.3.3"
