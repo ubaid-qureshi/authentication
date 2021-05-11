@@ -2,6 +2,9 @@
 # Vscode
 .vscode
 
+# Data
+data/*
+
 # Logs
 logs
 *.log
