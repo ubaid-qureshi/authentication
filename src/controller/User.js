@@ -55,6 +55,12 @@ class User {
   }
 
   // Getting Users
+  async getOneCompleteDoc(filter) {
+    _logger.debug(filter);
+    return this.userDao.getCompleteDoc(filter);
+  }
+
+  // Getting Users
   async getOne(id) {
     _logger.debug(id);
     return this.userDao.getOne(id);
