@@ -5,9 +5,15 @@ class User {
     this.userModel = require('../Schema/User');
     this.projection = {
       _id: 0,
+      password: 0,
       createdAt: 0,
       updatedAt: 0,
+      twoFactor: 0,
       __v: 0,
+    };
+    this.projection2fa = {
+      _id: 0,
+      twoFactor: 1,
     };
   }
 
@@ -27,9 +33,25 @@ class User {
     }
   }
 
+  async getCompleteDoc(filter) {
+    try {
+      return this.userModel.findOne(filter);
+    } catch (error) {
+      throw new AppError(error.code || 400, error.message);
+    }
+  }
+
   async getOneByQuery(filter) {
     try {
       return this.userModel.findOne(filter, this.projection);
+    } catch (error) {
+      throw new AppError(error.code || 400, error.message);
+    }
+  }
+
+  async getOne2fa(filter) {
+    try {
+      return this.userModel.findOne(filter, this.projection2fa);
     } catch (error) {
       throw new AppError(error.code || 400, error.message);
     }

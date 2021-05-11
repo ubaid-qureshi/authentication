@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const { AppError } = require('../utils/requestHandlers/errorHandler');
 
 class User {
@@ -9,7 +10,13 @@ class User {
   async create(userData) {
     try {
       _logger.debug(userData);
-      return await this.userDao.create(userData);
+      userData.password = bcrypt.hashSync(userData.password);
+      const {
+        id, email, firstName, lastName, phoneNumber,
+      } = await this.userDao.create(userData);
+      return {
+        id, email, firstName, lastName, phoneNumber,
+      };
     } catch (error) {
       throw new AppError(error.code || 400, error.message);
     }
@@ -22,6 +29,10 @@ class User {
     country,
     city,
   }) {
+    /*
+    User can update only 5 fields firstName, lastName,
+    phoneNumber, country, city.
+    */
     try {
       const user = await this.getOne(id);
       if (!user) throw new AppError(404, 'User doesn\'t exist');
@@ -54,8 +65,9 @@ class User {
     return this.userDao.getOneByQuery(filter);
   }
 
-  async getAllByQuery(filter) {
-    return this.userDao.getAllByQuery(filter);
+  async getAll(filter) {
+    // TODO - Add pagination
+    return this.userDao.getAll(filter);
   }
 
   // Soft deleting user

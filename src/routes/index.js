@@ -6,6 +6,7 @@ const { AppError, errorHandler } = require('../utils/requestHandlers/errorHandle
 module.exports = (app) => {
   const router = express.Router();
 
+  router.use('/', require('./v1/authentication'));
   router.use('/user', require('./v1/user'));
 
   app.use('/', require('./v1/config'));

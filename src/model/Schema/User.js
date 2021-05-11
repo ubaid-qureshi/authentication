@@ -9,6 +9,24 @@ const validateEmail = (email) => {
   return re.test(email);
 };
 
+const twoFactorSchema = Schema({
+  tempSecret: {
+    type: String,
+  },
+  secret: {
+    type: String,
+  },
+  dataURL: {
+    type: String,
+  },
+  otpURL: {
+    type: String,
+  },
+  googleChart: {
+    type: String,
+  },
+});
+
 const User = Schema({
   id: {
     type: String,
@@ -22,6 +40,11 @@ const User = Schema({
     validate: [validateEmail, 'Please fill a valid email address'],
     match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
   },
+  password: {
+    type: String,
+    required: true,
+  },
+  twoFactor: twoFactorSchema,
   firstName: {
     type: String,
     required: true,

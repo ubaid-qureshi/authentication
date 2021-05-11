@@ -9,7 +9,7 @@ router.post('/',
       .then((response) => {
         _handleResponse({
           res,
-          statusCode: 200,
+          statusCode: 201,
           ...(response && { response }),
         });
       })
@@ -29,7 +29,7 @@ router.get('/:id',
   });
 router.get('/',
   async (req, res, next) => {
-    user.getAllByQuery()
+    user.getAll()
       .then((response) => {
         _handleResponse({
           res,
@@ -57,7 +57,7 @@ router.delete('/:id',
       .then((response) => {
         _handleResponse({
           res,
-          statusCode: 200,
+          statusCode: 204,
           ...(response && { response }),
         });
       })

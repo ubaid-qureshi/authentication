@@ -3,9 +3,10 @@ const express = require('express');
 const router = express.Router();
 const Authentication = require('../../controller/Authentication');
 
-router.post('/',
+router.post('/login',
   async (req, res, next) => {
-    Authentication.create(req.body)
+    const token = req.headers['x-otp'];
+    Authentication.login(req.body, token)
       .then((response) => {
         _handleResponse({
           res,
@@ -15,9 +16,9 @@ router.post('/',
       })
       .catch((err) => next(err));
   });
-router.get('/:id',
+router.post('/twofactor/:id',
   async (req, res, next) => {
-    Authentication.getOne(req.params.id)
+    Authentication.register2fa(req.params)
       .then((response) => {
         _handleResponse({
           res,
@@ -27,9 +28,9 @@ router.get('/:id',
       })
       .catch((err) => next(err));
   });
-router.get('/',
+router.get('/twofactor/:id',
   async (req, res, next) => {
-    Authentication.getAllByQuery()
+    Authentication.get2fa(req.params.id)
       .then((response) => {
         _handleResponse({
           res,
@@ -39,9 +40,9 @@ router.get('/',
       })
       .catch((err) => next(err));
   });
-router.patch('/:id',
+router.post('/twofactor/:id/verify',
   async (req, res, next) => {
-    Authentication.updateOne(req.params.id, req.body)
+    Authentication.verify(req.params.id, req.body)
       .then((response) => {
         _handleResponse({
           res,
@@ -51,9 +52,9 @@ router.patch('/:id',
       })
       .catch((err) => next(err));
   });
-router.delete('/:id',
+router.delete('/twofactor/:id',
   async (req, res, next) => {
-    Authentication.deleteOne(req.params.id)
+    Authentication.deregister2fa(req.params.id)
       .then((response) => {
         _handleResponse({
           res,

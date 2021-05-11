@@ -46,7 +46,6 @@ app.post('/login', (req, res) => {
 
 // setup two factor for logged in user
 app.post('/twofactor/setup', (req, res) => {
-  console.log('here');
   const secret = speakeasy.generateSecret({ length: 10 });
   QRCode.toDataURL(secret.otpauth_url, (err, data_url) => {
     // save to logged in user.
