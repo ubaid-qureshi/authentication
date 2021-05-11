@@ -1,0 +1,68 @@
+
+# SVC
+# Use Ingress LoadBalancer for PROD and DEV env
+# Use Service LoadBalancer only for testing
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentication
+  labels:
+    name: authentication
+spec:
+  # type: ClusterIP
+  # type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: authentication
+
+---
+
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentication
+spec:
+  selector:
+    matchLabels:
+      app: authentication
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: authentication
+    spec:
+      containers:
+      - name: authentication-container
+        image: tessacrdev.azurecr.io/authentication:latest
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+
+        env:
+          - name: LOGIC_FOR_ROLLOUT
+            value: "Rollout"
+
+          - name: NODE_ENV
+            value: "production"
+
+          - name: APP_PORT
+            value: "80"
+
+          - name: LOG_LEVEL
+            value: "debug"
+
+          - name: MONGODB_URI
+            value: "mongodb://mongo:27017/developer-authentication"
