@@ -7,6 +7,18 @@ Note: no need to to install any dependencies other than docker, [click here to i
  docker-compose up --build
 ```
 
+To run locally 
+Note: Change mongodb url to localhost in config/default.json to use local db
+```
+npm start
+```
+
+
+## To run unit tests
+Run folowoling command from root
+```
+npm run test
+```
 
 ## There are two controllers in this repo,
 1. Authentication (Login + 2fa)
